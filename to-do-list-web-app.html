@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Taskify - To-Do List</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+    body {
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      color: #f5f5f5;
+    }
+    .todo-container {
+      background: #1e1e2f;
+      width: 100%;
+      max-width: 420px;
+      padding: 25px 20px;
+      border-radius: 15px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+      transition: all 0.3s ease-in-out;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #b0c7f1;
+      letter-spacing: 1px;
+    }
+    .input-group {
+      display: flex;
+      gap: 10px;
+    }
+    input {
+      flex: 1;
+      padding: 10px 15px;
+      border: 2px solid #333;
+      border-radius: 8px;
+      outline: none;
+      background: #2a2a3b;
+      color: #f5f5f5;
+      transition: border 0.3s, background 0.3s;
+    }
+    input:focus {
+      border-color: #7289da;
+      background: #34344a;
+    }
+    button.add-btn {
+      background: #7289da;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 15px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button.add-btn:hover {
+      background: #5865f2;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+      margin-top: 20px;
+    }
+    li {
+      background: #2a2a3b;
+      padding: 12px 15px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #f1f1f1;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+    li.completed {
+      text-decoration: line-through;
+      background: #22362d;
+      color: #8de89b;
+    }
+    .btns {
+      display: flex;
+      gap: 8px;
+    }
+    .btns button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: transform 0.2s ease;
+    }
+    .btns .complete-btn {
+      color: #4caf50;
+    }
+    .btns .delete-btn {
+      color: #f44336;
+    }
+    .btns button:hover {
+      transform: scale(1.2);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .footer {
+      text-align: center;
+      font-size: 0.8rem;
+      color: #aaa;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div class="todo-container">
+    <h2>🌙 Taskify To-Do List</h2>
+    <div class="input-group">
+      <input type="text" id="taskInput" placeholder="Enter a new task..." />
+      <button class="add-btn" id="addBtn">Add</button>
+    </div>
+    <ul id="taskList"></ul>
+    
+  </div>
+
+  <script>
+    const input = document.getElementById('taskInput');
+    const addBtn = document.getElementById('addBtn');
+    const taskList = document.getElementById('taskList');
+
+    function createTask(taskText) {
+      const li = document.createElement('li');
+      li.textContent = taskText;
+
+      const btnDiv = document.createElement('div');
+      btnDiv.classList.add('btns');
+
+      const completeBtn = document.createElement('button');
+      completeBtn.classList.add('complete-btn');
+      completeBtn.innerHTML = '✔';
+      completeBtn.title = 'Mark Complete';
+
+      const deleteBtn = document.createElement('button');
+      deleteBtn.classList.add('delete-btn');
+      deleteBtn.innerHTML = '✖';
+      deleteBtn.title = 'Delete Task';
+
+      btnDiv.appendChild(completeBtn);
+      btnDiv.appendChild(deleteBtn);
+      li.appendChild(btnDiv);
+      taskList.appendChild(li);
+
+      completeBtn.addEventListener('click', () => {
+        li.classList.toggle('completed');
+      });
+
+      deleteBtn.addEventListener('click', () => {
+        li.remove();
+      });
+    }
+
+    addBtn.addEventListener('click', () => {
+      const taskText = input.value.trim();
+      if (taskText === '') {
+        alert('Please enter a task!');
+        return;
+      }
+      createTask(taskText);
+      input.value = '';
+    });
+
+    input.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') addBtn.click();
+    });
+  </script>
+</body>
+</html>
